@@ -12,14 +12,14 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
 dag_id = 'kubernetes-dag'
 
 task_default_args = {
-    'owner': 'bomwo',
+    'owner': 'airflow',
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
     'start_date': datetime(2020, 11, 21),
     'depends_on_past': False,
-    'email': ['bomwo25@mgmail.com'],
+    'email': ['hoo0681@naver.com'],
     'email_on_retry': False,
-    'email_on_failure': True,
+    'email_on_failure': False,
     'execution_timeout': timedelta(hours=1)
 }
 
@@ -57,15 +57,15 @@ run = KubernetesPodOperator(
     image="ubuntu:16.04",
     cmds=["bash", "-cx"],
     arguments=["echo", "10", "echo pwd"],
-    secrets=[
-        env
-    ],
-    image_pull_secrets=[k8s.V1LocalObjectReference('image_credential')],
-    name="job",
+    #secrets=[
+    #    env
+    #],
+    #image_pull_secrets=[k8s.V1LocalObjectReference('image_credential')],
+    #name="job",
     is_delete_operator_pod=True,
     get_logs=True,
     resources=pod_resources,
-    env_from=configmaps,
+    #env_from=configmaps,
     dag=dag,
 )
 
