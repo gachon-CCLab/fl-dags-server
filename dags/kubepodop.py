@@ -43,6 +43,7 @@ pod_resources.request_cpu = '1000m'
 pod_resources.request_memory = '2048Mi'
 pod_resources.limit_cpu = '2000m'
 pod_resources.limit_memory = '4096Mi'
+pod_resources.limit_gpu = '1'
 
 
 configmaps = [
@@ -54,9 +55,9 @@ start = DummyOperator(task_id="start", dag=dag)
 run = KubernetesPodOperator(
     task_id="kubernetespodoperator",
     namespace='fed-play-ground',
-    image="ubuntu:16.04",
+    image='docker.io/hoo0681/gpu-jupyter:latest',
     cmds=["bash", "-cx"],
-    arguments=["echo", "10", "echo pwd"],
+    arguments=["nvidia-smi"],
     #secrets=[
     #    env
     #],
