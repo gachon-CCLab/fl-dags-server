@@ -53,8 +53,10 @@ start = DummyOperator(task_id="start", dag=dag)
 
 run = KubernetesPodOperator(
     task_id="kubernetespodoperator",
-    namespace='development',
-    image='test/image',
+    namespace='fed-play-ground',
+    image="ubuntu:16.04",
+    cmds=["bash", "-cx"],
+    arguments=["echo", "10", "echo pwd"],
     secrets=[
         env
     ],
