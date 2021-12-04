@@ -51,18 +51,23 @@ configmaps = [
 ]
 
 start = DummyOperator(task_id="start", dag=dag)
+port = k8s.V1ContainerPort(container_port=8080)
 
 run = KubernetesPodOperator(
     task_id="kubernetespodoperator",
     namespace='fed-play-ground',
-    image='docker.io/hoo0681/gpu-jupyter:latest',
+    image='docker.io/hoo0681/airflowkubepodimage:0.1',
     cmds=["bash", "-cx"],
     arguments=["nvidia-smi"],
+    ports=[port],
+    labels={'run':'fl-server'},
+    env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLSe.git',
+              "GIT_TAG":"master"  },
     #secrets=[
     #    env
     #],
     #image_pull_secrets=[k8s.V1LocalObjectReference('image_credential')],
-    name="job",
+    name="fl-server",
     is_delete_operator_pod=True,
     get_logs=True,
     resources=pod_resources,
