@@ -112,7 +112,7 @@ model_init=KubernetesPodOperator(
     get_logs=True,
     resources=pod_resources1,
     dag=dag,
-    secret=[env1]
+    secret=[env1,env2,env3]
 )
 
 start >>model_init>> run
