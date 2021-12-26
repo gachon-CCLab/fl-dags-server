@@ -100,7 +100,7 @@ env3 = Secret(
     key='BUCKET_NAME',
 )
 model_init=KubernetesPodOperator(
-    task_id="kubernetespodoperator",
+    task_id="fl-server-model-init",
     namespace='fed-play-ground',
     image='docker.io/hoo0681/gitclone_python:0.1',
     labels={'run':'fl-server-model-init'},
