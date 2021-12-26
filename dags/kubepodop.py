@@ -81,7 +81,24 @@ pod_resources1.request_cpu = '1000m'
 pod_resources1.request_memory = '2048Mi'
 pod_resources1.limit_cpu = '2000m'
 pod_resources1.limit_memory = '4096Mi'
-env1 = Secret('s3secret')
+env1 = Secret(
+    deploy_type='env',
+    deploy_target='ACCESS_KEY_ID',
+    secret='s3secret',
+    key='ACCESS_KEY_ID',
+)
+env2 = Secret(
+    deploy_type='env',
+    deploy_target='ACCESS_SECRET_KEY',
+    secret='s3secret',
+    key='ACCESS_SECRET_KEY',
+)
+env3 = Secret(
+    deploy_type='env',
+    deploy_target='BUCKET_NAME',
+    secret='s3secret',
+    key='BUCKET_NAME',
+)
 model_init=KubernetesPodOperator(
     task_id="kubernetespodoperator",
     namespace='fed-play-ground',
