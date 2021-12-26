@@ -74,5 +74,28 @@ run = KubernetesPodOperator(
     #env_from=configmaps,
     dag=dag,
 )
+##################################
 
-start >> run
+pod_resources1 = Resources()
+pod_resources1.request_cpu = '1000m'
+pod_resources1.request_memory = '2048Mi'
+pod_resources1.limit_cpu = '2000m'
+pod_resources1.limit_memory = '4096Mi'
+env1 = Secret('s3secret')
+model_init=KubernetesPodOperator(
+    task_id="kubernetespodoperator",
+    namespace='fed-play-ground',
+    image='docker.io/hoo0681/gitclone_python:0.1',
+    labels={'run':'fl-server-model-init'},
+    env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLClient.git',
+              "GIT_TAG":"master",
+              "ENV": 'init' },
+    name="fl-server-model-init",
+    is_delete_operator_pod=True,
+    get_logs=True,
+    resources=pod_resources1,
+    dag=dag,
+    secret=[env1]
+)
+
+start >>model_init>> run
