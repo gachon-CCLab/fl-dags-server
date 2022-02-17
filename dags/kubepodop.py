@@ -43,7 +43,7 @@ pod_resources.request_cpu = '1000m'
 pod_resources.request_memory = '2048Mi'
 pod_resources.limit_cpu = '2000m'
 pod_resources.limit_memory = '4096Mi'
-pod_resources.limit_gpu = '1'
+#pod_resources.limit_gpu = '1'
 
 
 configmaps = [
@@ -58,6 +58,12 @@ run = KubernetesPodOperator(
     namespace='fed-play-ground',
     image='docker.io/hoo0681/airflowkubepodimage:0.1',
     #cmds=["python3"],
+    cmds=["/bin/sh","-c","|","until curl -fsl http://localhost:4191/ready; \
+        do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
+        git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+        python3 -m pip install -r /app/requirements.txt; \
+        python3 /app/app.py; \
+        x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
     #arguments=["/app/app.py"],
     ports=[port],
     labels={'run':'fl-server'},
@@ -107,6 +113,12 @@ model_init=KubernetesPodOperator(
     env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLClient.git',
               "GIT_TAG":"master",
               "ENV": 'init' },
+    cmds=["/bin/sh","-c","|","until curl -fsl http://localhost:4191/ready; \
+        do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
+        git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+        python3 -m pip install -r /app/requirements.txt; \
+        python3 /app/app.py; \
+        x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
     name="fl-server-model-init",
     is_delete_operator_pod=True,
     get_logs=True,
