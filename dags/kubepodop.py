@@ -58,7 +58,7 @@ run = KubernetesPodOperator(
     namespace='fed-play-ground',
     image='docker.io/hoo0681/airflowkubepodimage:0.1',
     #cmds=["python3"],
-    cmds=["/bin/sh","-c","until curl -fsl http://localhost:4191/ready; \
+    cmds=["/bin/sh","-c","apt-get install -y curl; until curl -fsl http://localhost:4191/ready; \
         do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
         git clone -b ${GIT_TAG} ${REPO_URL} /app; \
         python3 -m pip install -r /app/requirements.txt; \
