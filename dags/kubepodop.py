@@ -58,13 +58,16 @@ run = KubernetesPodOperator(
     namespace='fed-play-ground',
     image='docker.io/hoo0681/airflowkubepodimage:0.1',
     #cmds=["python3"],
-    cmds=["/bin/sh","-c","apt-get install -y curl; until curl -fsl http://localhost:4191/ready; \
-        do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
-        git clone -b ${GIT_TAG} ${REPO_URL} /app; \
-        python3 -m pip install -r /app/requirements.txt; \
-        python3 /app/app.py; \
-        x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
+    #cmds=["/bin/sh","-c","apt-get install -y curl; until curl -fsl http://localhost:4191/ready; \
+    #    do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
+    #    git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+    #    python3 -m pip install -r /app/requirements.txt; \
+    #    python3 /app/app.py; \
+    #    x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
     #arguments=["/app/app.py"],
+    cmds=["/bin/sh","-c","git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+        python3 -m pip install -r /app/requirements.txt; \
+        python3 /app/app.py;"]
     ports=[port],
     labels={'run':'fl-server'},
     env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLSe.git',
@@ -113,12 +116,15 @@ model_init=KubernetesPodOperator(
     env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLClient.git',
               "GIT_TAG":"master",
               "ENV": 'init' },
-    cmds=["/bin/sh","-c","until curl -fsl http://localhost:4191/ready; \
-        do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
-        git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+    #cmds=["/bin/sh","-c","until curl -fsl http://localhost:4191/ready; \
+    #    do echo \"Waiting for Sidecar...\"; sleep 3; done; echo \"Sidecar available. Running the command...\"; \
+    #    git clone -b ${GIT_TAG} ${REPO_URL} /app; \
+    #    python3 -m pip install -r /app/requirements.txt; \
+    #    python3 /app/app.py; \
+    #    x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
+    cmds=["/bin/sh","-c","git clone -b ${GIT_TAG} ${REPO_URL} /app; \
         python3 -m pip install -r /app/requirements.txt; \
-        python3 /app/app.py; \
-        x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
+        python3 /app/app.py;"]
     name="fl-server-model-init",
     is_delete_operator_pod=True,
     get_logs=True,
