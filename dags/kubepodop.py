@@ -67,7 +67,7 @@ run = KubernetesPodOperator(
     #arguments=["/app/app.py"],
     cmds=["/bin/sh","-c","git clone -b ${GIT_TAG} ${REPO_URL} /app; \
         python3 -m pip install -r /app/requirements.txt; \
-        python3 /app/app.py;"]
+        python3 /app/app.py;"],
     ports=[port],
     labels={'run':'fl-server'},
     env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLSe.git',
@@ -124,7 +124,7 @@ model_init=KubernetesPodOperator(
     #    x=$(echo $?); curl -fsI -X POST http://localhost:4191/shutdown && exit $x"],
     cmds=["/bin/sh","-c","git clone -b ${GIT_TAG} ${REPO_URL} /app; \
         python3 -m pip install -r /app/requirements.txt; \
-        python3 /app/app.py;"]
+        python3 /app/app.py;"],
     name="fl-server-model-init",
     is_delete_operator_pod=True,
     get_logs=True,
