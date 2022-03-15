@@ -37,7 +37,24 @@ env = Secret(
     'test_env',
     'TEST',
 )
-
+env1 = Secret(
+    deploy_type='env',
+    deploy_target='ACCESS_KEY_ID',
+    secret='s3secret',
+    key='ACCESS_KEY_ID',
+)
+env2 = Secret(
+    deploy_type='env',
+    deploy_target='ACCESS_SECRET_KEY',
+    secret='s3secret',
+    key='ACCESS_SECRET_KEY',
+)
+env3 = Secret(
+    deploy_type='env',
+    deploy_target='BUCKET_NAME',
+    secret='s3secret',
+    key='BUCKET_NAME',
+)
 pod_resources = Resources()
 pod_resources.request_cpu = '1000m'
 pod_resources.request_memory = '2048Mi'
@@ -71,7 +88,8 @@ run = KubernetesPodOperator(
     ports=[port],
     labels={'run':'fl-server'},
     env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLSe.git',
-              "GIT_TAG":"master"  },
+              "GIT_TAG":"master" ,
+              "ENV": 'init' },
     #secrets=[
     #    env
     #],
@@ -80,6 +98,7 @@ run = KubernetesPodOperator(
     is_delete_operator_pod=True,
     get_logs=True,
     resources=pod_resources,
+    secrets=[env1,env2,env3],
     #env_from=configmaps,
     dag=dag,
 )
