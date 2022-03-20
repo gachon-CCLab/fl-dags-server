@@ -17,7 +17,7 @@ task_default_args = {
     'retry_delay': timedelta(minutes=5),
     'start_date': datetime(2021, 12, 3),
     'depends_on_past': False,
-    'email': ['hoo0681@naver.com'],
+    'email': ['kumass2021@gmail.com'],
     'email_on_retry': False,
     'email_on_failure': False,
     'execution_timeout': timedelta(hours=1)
@@ -72,7 +72,7 @@ port = k8s.V1ContainerPort(container_port=8080)
 
 run = KubernetesPodOperator(
     task_id="kubernetespodoperator",
-    namespace='fed-play-ground',
+    namespace='fed-repl-MJH',
     image='docker.io/hoo0681/airflowkubepodimage:0.1',
     #cmds=["python3"],
     #cmds=["/bin/sh","-c","apt-get install -y curl; until curl -fsl http://localhost:4191/ready; \
@@ -87,7 +87,7 @@ run = KubernetesPodOperator(
         python3 /app/app.py;"],
     ports=[port],
     labels={'run':'fl-server'},
-    env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLSe.git',
+    env_vars={'REPO_URL':'https://github.com/kumass2020/fl-proto-server.git',
               "GIT_TAG":"master" ,
               "ENV": 'init' },
     #secrets=[
@@ -129,10 +129,10 @@ env3 = Secret(
 )
 model_init=KubernetesPodOperator(
     task_id="fl-server-model-init",
-    namespace='fed-play-ground',
-    image='docker.io/hoo0681/gitclone_python:0.1',
+    namespace='fed-repl-MJH',
+    image='docker.io/kumass2020/fl-proto-client:0.1',
     labels={'run':'fl-server-model-init'},
-    env_vars={'REPO_URL':'https://github.com/hoo0681/portoFLClient.git',
+    env_vars={'REPO_URL':'https://github.com/kumass2020/fl-proto-client.git',
               "GIT_TAG":"master",
               "ENV": 'init' },
     #cmds=["/bin/sh","-c","until curl -fsl http://localhost:4191/ready; \
