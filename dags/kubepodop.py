@@ -129,7 +129,7 @@ env3 = Secret(
 )
 model_init=KubernetesPodOperator(
     task_id="fl-server-model-init",
-    namespace='fed-repl-MJH',
+    namespace='fed-repl-mjh',
     image='docker.io/kumass2020/fl-proto-client:1.0',
     labels={'run':'fl-server-model-init'},
     env_vars={'REPO_URL':'https://github.com/kumass2020/fl-proto-client.git',
