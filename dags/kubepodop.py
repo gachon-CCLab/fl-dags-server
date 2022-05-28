@@ -87,7 +87,7 @@ run = KubernetesPodOperator(
         python3 /app/app.py;"],
     ports=[port],
     labels={'run':'fl-server'},
-    env_vars={'REPO_URL':'https://github.com/kumass2020/fl-proto-server.git',
+    env_vars={'REPO_URL':'https://github.com/gachon-CCLab/fl-proto-server.git',
               "GIT_TAG":"master" ,
               "ENV": 'init' },
     #secrets=[
@@ -132,7 +132,7 @@ model_init=KubernetesPodOperator(
     namespace='fed-repl-mjh',
     image='docker.io/kumass2020/fl-proto-client:1.0',
     labels={'run':'fl-server-model-init'},
-    env_vars={'REPO_URL':'https://github.com/kumass2020/fl-proto-client.git',
+    env_vars={'REPO_URL':'https://github.com/gachon-CCLab/fl-proto-client.git',
               "GIT_TAG":"master",
               "ENV": 'init' },
     #cmds=["/bin/sh","-c","until curl -fsl http://localhost:4191/ready; \
