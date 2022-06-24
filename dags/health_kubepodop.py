@@ -13,7 +13,7 @@ dag_id = 'health-kubernetes-dag'
 
 task_default_args = {
     'owner': 'airflow',
-    'retries': 3,
+    'retries': 1,
     'retry_delay': timedelta(minutes=5),
     'start_date': datetime(2021, 12, 3),
     'depends_on_past': False,
@@ -29,6 +29,7 @@ dag = DAG(
     default_args=task_default_args,
     schedule_interval='5 16 * * *',
     max_active_runs=1
+    dagrun_timeout=timedelta(minutes=10)
 )
 
 env = Secret(
