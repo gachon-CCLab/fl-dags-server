@@ -28,7 +28,7 @@ dag = DAG(
     description='health kubernetes pod operator',
     default_args=task_default_args,
     schedule_interval='5 16 * * *',
-    max_active_runs=1
+    max_active_runs=1,
     dagrun_timeout=timedelta(minutes=10)
 )
 
