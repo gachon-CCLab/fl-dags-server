@@ -14,7 +14,7 @@ dag_id = 'health-kubernetes-dag'
 task_default_args = {
     'owner': 'airflow',
     'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'retry_delay': timedelta(minutes=60),
     'start_date': datetime(2021, 12, 3),
     'depends_on_past': False,
     'email': ['tpah20@gmail.com'],
