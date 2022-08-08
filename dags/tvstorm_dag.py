@@ -9,7 +9,7 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
 
-dag_id = 'flower-server-dag'
+dag_id = 'tvstorm-dag'
 
 task_default_args = {
     'owner': 'airflow',
