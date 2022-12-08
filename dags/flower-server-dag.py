@@ -15,7 +15,7 @@ task_default_args = {
     'owner': 'airflow',
     'retries': 3,
     'retry_delay': timedelta(minutes=10),
-    'start_date': datetime(2022, 8, 1),
+    'start_date': datetime( int(datetime.now().year), int(datetime.now().month), int(datetime.now().day) ),
     'depends_on_past': False,
     'email': ['tpah20@gmail.com'],
     'email_on_retry': False,
